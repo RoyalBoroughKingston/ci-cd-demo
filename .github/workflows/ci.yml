@@ -33,7 +33,7 @@ jobs:
       run: dotnet build --configuration Release
       
     - name: 'Run Tests'
-      # run: dotnet test --configuration Release
+      run: dotnet test --configuration Release
 
   # Run the linter to check for code style issues
   lint:
