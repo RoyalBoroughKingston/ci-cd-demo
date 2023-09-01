@@ -19,7 +19,7 @@ jobs:
     # Define the steps for this job
     steps:
     - name: 'Checkout repository'
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
 
     - name: 'Set up .NET'
       uses: actions/setup-dotnet@v3
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:    
     - name: 'Checkout repository'
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
     
     - name: 'Run .NET Linter'
       uses: zyactions/dotnet-lint@v1
