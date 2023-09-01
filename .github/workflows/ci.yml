@@ -1,0 +1,50 @@
+name: Continuous Integration Workflow
+
+# This workflow is triggered whenever a new PR is created on the main branch
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+
+  # Run unit tests to make sure everything is 👍
+  test:
+    name: 'Run unit tests'
+    # Specify the OS we want the workflow to run on
+    runs-on: ubuntu-latest
+    # Define the steps for this job
+    steps:
+    - name: 'Checkout repository'
+    - uses: actions/checkout@v3
+
+    - name: 'Set up .NET'
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x # Adjust the version as needed
+
+    - name: 'Restore dependencies'
+      run: dotnet restore
+
+    - name: 'Build application'
+      run: dotnet build --configuration Release
+      
+    - name: 'Run Tests'
+      # run: dotnet test --configuration Release
+
+  # Run the linter to check for code style issues
+  lint:
+    name: 'Run linter'
+    runs-on: ubuntu-latest
+    steps:    
+    - name: 'Checkout repository'
+    - uses: actions/checkout@v3
+    
+    - name: 'Run .NET Linter'
+      uses: zyactions/dotnet-lint@v1
+      with:
+        workspace: ci-cd-demo
+        implicit-restore: true
