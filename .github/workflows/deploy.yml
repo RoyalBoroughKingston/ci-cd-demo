@@ -63,4 +63,13 @@ jobs:
     
     - name: 'Upload zipped build files to AWS S3 bucket'
       run: aws s3 cp ./artifact/publish.zip s3://ddt-build-files/aws-test-app/${{ env.ENV_NAME }}/publish-${{ github.run_number }}.zip
+
+    - name: 'Create AWS CloudFormation Stack'
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: aws-test-app-stack
+        template: artifact/deployment.yml
+        parameter-overrides: EnvironmentName=${{ env.ENV_NAME }}, BucketName=ddt-build-files, Key=aws-test-app/${{ env.ENV_NAME }}/${{ format('publish-{0}.zip', github.run_number ) }}
+        capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
+        no-fail-on-empty-changeset: "1"
     
