@@ -1,0 +1,21 @@
+name: Deploy to Staging & Production
+
+# This workflow is triggered whenever commits are pushed to the main branch
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+
+  # ======================================================
+  # Deploy the main branch to staging
+  # 
+  # It's important to test the main branch in staging
+  # before going to production with it.
+  # ======================================================
+  deploy_staging:
+    name: 'Deploy to Staging'
+    runs-on: ubuntu-latest
+    
