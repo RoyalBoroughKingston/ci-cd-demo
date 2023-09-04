@@ -53,7 +53,7 @@ Resources:
               - EnvironmentMapping
               - Ref: Environment
               - EnvironmentVariable
-      FunctionName: !Sub "ci-cd-demo-${EnvironmentName}"
+      FunctionName: !Sub "ci-cd-demo-${Environment}"
       Handler: ci-cd-demo
       Runtime: dotnet6
       CodeUri:
