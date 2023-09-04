@@ -33,7 +33,7 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
-      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./aws-test-app/aws-test-app.csproj
+      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
 
     - name: 'Install zip functionality'
       uses: montudor/action-zip@v1
