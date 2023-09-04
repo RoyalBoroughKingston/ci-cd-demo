@@ -7,6 +7,10 @@ on:
       - 'main'
   workflow_dispatch:
 
+permissions:
+  id-token: write # This is required for requesting the JWT to connect Github to AWS
+  contents: read  # This is required for actions / checkout
+
 jobs:
 
   # ======================================================
@@ -18,4 +22,45 @@ jobs:
   deploy_staging:
     name: 'Deploy to Staging'
     runs-on: ubuntu-latest
+
+    steps:
+    - name: 'Checkout repository'
+      uses: actions/checkout@v3
+    
+    - name: 'Set up .NET Core'
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: 'Build application files'
+      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish ./aws-test-app/aws-test-app.csproj
+
+    - name: 'Install zip functionality'
+      uses: montudor/action-zip@v1
+
+    - name: 'Zip up the build files'
+      run: zip -qq -r ../publish.zip .
+      working-directory: artifact/publish
+
+    - name: 'Copy Cloudformation deployment template file'
+      run: cp ./deployment.yml ./artifact/deployment.yml
+
+    - name: 'Upload zipped build files'
+      uses: actions/upload-artifact@v3
+      with:
+        name: publish
+        path: ./artifact
+
+    - name: 'Configure AWS Credentials'
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::604486847222:role/OIDC_GitHub
+        role-session-name: GitHub_to_AWS_via_FederatedOIDC
+        aws-region: eu-north-1
+        
+    - name: 'Delete existing zipped build files in AWS'
+      run: aws s3 rm s3://ddt-build-files/aws-test-app/${{ env.ENV_NAME }} --recursive --exclude "*" --include "*.zip"
+    
+    - name: 'Upload zipped build files to AWS S3 bucket'
+      run: aws s3 cp ./artifact/publish.zip s3://ddt-build-files/aws-test-app/${{ env.ENV_NAME }}/publish-${{ github.run_number }}.zip
     
