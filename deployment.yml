@@ -5,7 +5,7 @@ Description: An AWS Serverless Application that uses the ASP.NET Core framework 
   in Amazon Lambda.
 
 Parameters:
-  EnvironmentName:
+  Environment:
     Type: String
     Default: 'development'
   
@@ -16,6 +16,16 @@ Parameters:
   Key:
     Type: String
     Default: 'aws-test-app/development/lambda.zip'
+
+Mappings:
+  EnvironmentMapping:
+    development:
+      EnvironmentVariable: 'Development'
+    staging:
+      EnvironmentVariable: 'Staging'
+    production:
+      EnvironmentVariable: 'Production'
+    
 
 Resources:
   AspNetCoreIamRole:
@@ -36,12 +46,16 @@ Resources:
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Environment:
+        Variables:
+          ASPNETCORE_ENVIRONMENT:
+            Fn::FindInMap:
+              - EnvironmentMapping
+              - Ref: Environment
+              - EnvironmentVariable
       FunctionName: !Sub "ci-cd-demo-${EnvironmentName}"
       Handler: ci-cd-demo
       Runtime: dotnet6
-      Environment:
-        Variables:
-          ASPNETCORE_ENVIRONMENT: !Ref EnvironmentName
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref Key
@@ -63,4 +77,4 @@ Outputs:
   ApiURL:
     Description: API endpoint
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/

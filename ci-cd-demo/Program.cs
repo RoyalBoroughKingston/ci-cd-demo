@@ -9,11 +9,17 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
 var app = builder.Build();
 
+// Get config service
+ConfigurationManager config = builder.Configuration;
+
+// Get environment name
+string environment = config.GetValue<string>("Environment");
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/", () => "Welcome to running ASP.NET Core Minimal API on AWS Lambda!");
+app.MapGet("/", () => $"Welcome to running ASP.NET Core Minimal API on AWS Lambda! :) in the environment: {environment}");
 
 app.Run();
