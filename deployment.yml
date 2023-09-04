@@ -1,0 +1,66 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Application that uses the ASP.NET Core framework running
+  in Amazon Lambda.
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: 'development'
+  
+  BucketName:
+    Type: String
+    Default: 'ddt-build-files'
+
+  Key:
+    Type: String
+    Default: 'aws-test-app/development/lambda.zip'
+
+Resources:
+  AspNetCoreIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+             
+  AspNetCoreFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "ci-cd-demo-${EnvironmentName}"
+      Handler: ci-cd-demo
+      Runtime: dotnet6
+      Environment:
+        Variables:
+          ASPNETCORE_ENVIRONMENT: !Ref EnvironmentName
+      CodeUri:
+        Bucket: !Ref BucketName
+        Key: !Ref Key
+      MemorySize: 256
+      Timeout: 30
+      Role: !GetAtt AspNetCoreIamRole.Arn
+      Events:
+        ProxyResource:
+          Type: Api
+          Properties:
+            Path: "/{proxy+}"
+            Method: ANY
+        RootResource:
+          Type: Api
+          Properties:
+            Path: "/"
+            Method: ANY
+Outputs:
+  ApiURL:
+    Description: API endpoint
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/
