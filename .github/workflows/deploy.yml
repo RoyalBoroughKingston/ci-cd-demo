@@ -69,7 +69,7 @@ jobs:
       with:
         name: ci-cd-demo-stack
         template: artifact/deployment.yml
-        parameter-overrides: EnvironmentName=staging, BucketName=ddt-build-files, Key=ci-cd-demo/${{ env.ENV_NAME }}/${{ format('build-{0}.zip', github.run_number ) }}
+        parameter-overrides: EnvironmentName=staging, BucketName=ddt-build-files, Key=ci-cd-demo/staging/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
     
