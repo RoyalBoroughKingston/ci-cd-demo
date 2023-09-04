@@ -33,14 +33,14 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
-      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish ./aws-test-app/aws-test-app.csproj
+      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./aws-test-app/aws-test-app.csproj
 
     - name: 'Install zip functionality'
       uses: montudor/action-zip@v1
 
     - name: 'Zip up the build files'
       run: zip -qq -r ../publish.zip .
-      working-directory: artifact/publish
+      working-directory: artifact/build
 
     - name: 'Copy Cloudformation deployment template file'
       run: cp ./deployment.yml ./artifact/deployment.yml
@@ -59,17 +59,17 @@ jobs:
         aws-region: eu-north-1
         
     - name: 'Delete existing zipped build files in AWS'
-      run: aws s3 rm s3://ddt-build-files/aws-test-app/${{ env.ENV_NAME }} --recursive --exclude "*" --include "*.zip"
+      run: aws s3 rm s3://ddt-build-files/ci-cd-demo/staging --recursive --exclude "*" --include "*.zip"
     
     - name: 'Upload zipped build files to AWS S3 bucket'
-      run: aws s3 cp ./artifact/publish.zip s3://ddt-build-files/aws-test-app/${{ env.ENV_NAME }}/publish-${{ github.run_number }}.zip
+      run: aws s3 cp ./artifact/publish.zip s3://ddt-build-files/ci-cd-demo/staging/build-${{ github.run_number }}.zip
 
     - name: 'Create AWS CloudFormation Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: aws-test-app-stack
+        name: ci-cd-demo-stack
         template: artifact/deployment.yml
-        parameter-overrides: EnvironmentName=${{ env.ENV_NAME }}, BucketName=ddt-build-files, Key=aws-test-app/${{ env.ENV_NAME }}/${{ format('publish-{0}.zip', github.run_number ) }}
+        parameter-overrides: EnvironmentName=staging, BucketName=ddt-build-files, Key=ci-cd-demo/${{ env.ENV_NAME }}/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
     
