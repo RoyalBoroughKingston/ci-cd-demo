@@ -24,6 +24,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: 'Set environment variables and secrets'
+      env:
+        MISC_KEY: ${{ secrets.MISC_KEY }}
+        
     - name: 'Checkout repository'
       uses: actions/checkout@v3
     
@@ -86,6 +90,10 @@ jobs:
     needs: deploy_staging
 
     steps:
+    - name: 'Set environment variables and secrets'
+      env:
+        MISC_KEY: ${{ secrets.MISC_KEY }}
+        
     - name: 'Checkout repository'
       uses: actions/checkout@v3
     
