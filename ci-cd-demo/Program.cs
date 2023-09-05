@@ -23,6 +23,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/", () => $"Welcome to running ASP.NET Core Minimal API on AWS Lambda! :) in the environment: {environment}. The GitHub variable for this environment is {githubVariable}");
+app.MapGet("/", () => $"Welcome to running ASP.NET Core Minimal API on AWS Lambda! in the environment: {environment}. The GitHub variable for this environment is {githubVariable}");
 
 app.Run();
