@@ -28,9 +28,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: 'Set Environment Secrets'
-      env:
-        GitHubVariable: ${{ secrets.MISC_KEY }}
-      run: echo "GitHubVariable=${MISC_KEY}" >> $GITHUB_ENV
+      run: echo "GitHubVariable=${{ secrets.MISC_KEY }}" >> $GITHUB_ENV
 
     - name: 'Update AppSettings to Environment'
       run: cp ci-cd-demo/appsettings.Staging.json ci-cd-demo/appsettings.json
@@ -98,9 +96,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: 'Set Environment Secrets'
-      env:
-        GitHubVariable: ${{ secrets.MISC_KEY }}
-      run: echo "GitHubVariable=${MISC_KEY}" >> $GITHUB_ENV
+      run: echo "GitHubVariable=${{ secrets.MISC_KEY }}" >> $GITHUB_ENV
 
     - name: 'Update AppSettings to Environment'
       run: cp ci-cd-demo/appsettings.Production.json ci-cd-demo/appsettings.json
