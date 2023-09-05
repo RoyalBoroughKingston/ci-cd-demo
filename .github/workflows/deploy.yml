@@ -24,10 +24,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Set environment variables and secrets'
-      env:
-        MISC_KEY: ${{ secrets.MISC_KEY }}
-        
     - name: 'Checkout repository'
       uses: actions/checkout@v3
     
@@ -37,6 +33,8 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
+      env:
+        MISC_KEY: ${{ secrets.MISC_KEY }}
       run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
 
     - name: 'Install zip functionality'
@@ -90,10 +88,6 @@ jobs:
     needs: deploy_staging
 
     steps:
-    - name: 'Set environment variables and secrets'
-      env:
-        MISC_KEY: ${{ secrets.MISC_KEY }}
-        
     - name: 'Checkout repository'
       uses: actions/checkout@v3
     
@@ -103,6 +97,8 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
+      env:
+        MISC_KEY: ${{ secrets.MISC_KEY }}
       run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
 
     - name: 'Install zip functionality'
