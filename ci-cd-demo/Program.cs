@@ -11,13 +11,12 @@ var app = builder.Build();
 
 // Get config service
 ConfigurationManager config = builder.Configuration;
-config.AddEnvironmentVariables();
 
 // Get environment name from appsettings file
 string environment = config.GetValue<string>("Environment");
 
 // Get GitHub variable from GitHub Secrets which are created as environment variables in the workflow
-string githubVariable = config.GetValue<string>("GitHubVariable");
+string githubVariable = Environment.GetEnvironmentVariable("GitHubVariable");
 
 
 app.UseHttpsRedirection();
