@@ -15,11 +15,14 @@ ConfigurationManager config = builder.Configuration;
 // Get environment name
 string environment = config.GetValue<string>("Environment");
 
+// Get GitHub variable
+string githubVariable = config.GetValue<string>("GitHubVariable");
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/", () => $"Welcome to running ASP.NET Core Minimal API on AWS Lambda! :) in the environment: {environment}");
+app.MapGet("/", () => $"Welcome to running ASP.NET Core Minimal API on AWS Lambda! :) in the environment: {environment}. The GitHub variable for this environment is {githubVariable}");
 
 app.Run();
