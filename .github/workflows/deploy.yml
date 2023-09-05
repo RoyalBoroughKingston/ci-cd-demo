@@ -29,8 +29,8 @@ jobs:
 
     - name: 'Set Environment Secrets'
       env:
-        MISC_KEY: ${{ secrets.MISC_KEY }}
-      run: echo "MISC_KEY=${MISC_KEY}" >> $GITHUB_ENV
+        GitHubVariable: ${{ secrets.MISC_KEY }}
+      run: echo "GitHubVariable=${MISC_KEY}" >> $GITHUB_ENV
 
     - name: 'Update AppSettings to Environment'
       run: cp ci-cd-demo/appsettings.Staging.json ci-cd-demo/appsettings.json
@@ -99,8 +99,8 @@ jobs:
 
     - name: 'Set Environment Secrets'
       env:
-        MISC_KEY: ${{ secrets.MISC_KEY }}
-      run: echo "MISC_KEY=${MISC_KEY}" >> $GITHUB_ENV
+        GitHubVariable: ${{ secrets.MISC_KEY }}
+      run: echo "GitHubVariable=${MISC_KEY}" >> $GITHUB_ENV
 
     - name: 'Update AppSettings to Environment'
       run: cp ci-cd-demo/appsettings.Production.json ci-cd-demo/appsettings.json
