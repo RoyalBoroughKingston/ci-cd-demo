@@ -36,7 +36,7 @@ jobs:
     - name: 'Copy AppSettings File'
       run: |
         # Use the environment variable to copy the appropriate appsettings file
-        cp ./ci-cd-demo/appsettings.${{ env.ENVIRONMENT }}.json ./ci-cd-demo/appsettings.json
+        cp ci-cd-demo/appsettings.${{ env.ENVIRONMENT }}.json ci-cd-demo/appsettings.json
     
     - name: 'Set up .NET Core'
       uses: actions/setup-dotnet@v3
@@ -111,7 +111,7 @@ jobs:
     - name: 'Copy AppSettings File'
       run: |
         # Use the environment variable to copy the appropriate appsettings file
-        cp ./ci-cd-demo/appsettings.${{ env.ENVIRONMENT }}.json ./ci-cd-demo/appsettings.json
+        cp ci-cd-demo/appsettings.${{ env.ENVIRONMENT }}.json ci-cd-demo/appsettings.json
     
     - name: 'Set up .NET Core'
       uses: actions/setup-dotnet@v3
