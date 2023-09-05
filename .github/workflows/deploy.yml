@@ -27,6 +27,11 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
+    - name: 'Set Environment Secrets'
+      env:
+        MISC_KEY: ${{ secrets.MISC_KEY }}
+      run: echo "MISC_KEY=${MISC_KEY}" >> $GITHUB_ENV
+
     - name: 'Update AppSettings to Environment'
       run: cp ci-cd-demo/appsettings.Staging.json ci-cd-demo/appsettings.json
     
@@ -36,8 +41,6 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
-      env:
-        MISC_KEY: ${{ secrets.MISC_KEY }}
       run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
 
     - name: 'Install zip functionality'
@@ -94,6 +97,11 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
+    - name: 'Set Environment Secrets'
+      env:
+        MISC_KEY: ${{ secrets.MISC_KEY }}
+      run: echo "MISC_KEY=${MISC_KEY}" >> $GITHUB_ENV
+
     - name: 'Update AppSettings to Environment'
       run: cp ci-cd-demo/appsettings.Production.json ci-cd-demo/appsettings.json
     
@@ -103,8 +111,6 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
-      env:
-        MISC_KEY: ${{ secrets.MISC_KEY }}
       run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
 
     - name: 'Install zip functionality'
