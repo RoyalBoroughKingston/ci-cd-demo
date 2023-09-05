@@ -27,16 +27,8 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
-    - name: 'Set Environment Variable'
-      run: |
-        # Convert the environment name to title case
-        ENVIRONMENT=$(echo "${{ env.ENVIRONMENT }}" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
-        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
-
-    - name: 'Copy AppSettings File'
-      run: |
-        # Use the environment variable to copy the appropriate appsettings file
-        cp ci-cd-demo/appsettings.${{ env.ENVIRONMENT }}.json ci-cd-demo/appsettings.json
+    - name: 'Update AppSettings to Environment'
+      run: cp ci-cd-demo/appsettings.Staging.json ci-cd-demo/appsettings.json
     
     - name: 'Set up .NET Core'
       uses: actions/setup-dotnet@v3
@@ -102,16 +94,8 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
-    - name: 'Set Environment Variable'
-      run: |
-        # Convert the environment name to title case
-        ENVIRONMENT=$(echo "${{ env.ENVIRONMENT }}" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
-        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
-
-    - name: 'Copy AppSettings File'
-      run: |
-        # Use the environment variable to copy the appropriate appsettings file
-        cp ci-cd-demo/appsettings.${{ env.ENVIRONMENT }}.json ci-cd-demo/appsettings.json
+    - name: 'Update AppSettings to Environment'
+      run: cp ci-cd-demo/appsettings.Production.json ci-cd-demo/appsettings.json
     
     - name: 'Set up .NET Core'
       uses: actions/setup-dotnet@v3
