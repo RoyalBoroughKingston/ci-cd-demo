@@ -46,6 +46,13 @@ Resources:
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Environment:
+        Variables:
+          ASPNETCORE_ENVIRONMENT:
+            Fn::FindInMap:
+              - EnvironmentMapping
+              - Ref: Environment
+              - EnvironmentVariable
       FunctionName: !Sub "ci-cd-demo-${Environment}"
       Handler: ci-cd-demo
       Runtime: dotnet6
