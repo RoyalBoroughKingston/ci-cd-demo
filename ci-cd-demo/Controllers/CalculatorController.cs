@@ -28,7 +28,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("add/{x}/{y}")]
     public int Add(int x, int y)
     {
-        _logger.LogInformation($"{x} plus {y} is {x + y}. Tests secret is {secrets.TestSecret}");
+        _logger.LogInformation($"{x} plus {y} is {x + y}");
         return x + y;
     }
 
@@ -69,5 +69,12 @@ public class CalculatorController : ControllerBase
     {
         _logger.LogInformation($"{x} divide {y} is {x / y}");
         return x / y;
+    }
+
+    [HttpGet("test")]
+
+    public string Test()
+    {
+        return $"The secret for this environment is {secrets.TestSecret}";
     }
 }
