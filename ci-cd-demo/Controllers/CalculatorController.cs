@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace ci_cd_demo.Controllers;
 
@@ -6,12 +7,17 @@ namespace ci_cd_demo.Controllers;
 [Route("[controller]")]
 public class CalculatorController : ControllerBase
 {
+    private readonly SecretsList secrets;
     private readonly ILogger<CalculatorController> _logger;
 
-    public CalculatorController(ILogger<CalculatorController> logger)
+    public CalculatorController(
+        IOptions<SecretsList> secrets,
+        ILogger<CalculatorController> logger)
     {
+        this.secrets = secrets.Value;
         _logger = logger;
     }
+
 
     /// <summary>
     /// Perform x + y
@@ -22,7 +28,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("add/{x}/{y}")]
     public int Add(int x, int y)
     {
-        _logger.LogInformation($"{x} plus {y} is {x + y}");
+        _logger.LogInformation($"{x} plus {y} is {x + y}. Tests secret is {secrets.TestSecret}");
         return x + y;
     }
 
