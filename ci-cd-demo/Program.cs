@@ -4,18 +4,18 @@ using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var env = builder.Environment.EnvironmentName;
+var envName = builder.Environment.EnvironmentName;
 var appName = builder.Environment.ApplicationName;
 
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Add secrets manager for AWS
+// Add secrets manager for AWS and filter to only include secrets for the environment and application
 builder.Configuration.AddSecretsManager(configurator: config =>
 {
-    config.SecretFilter = entry => entry.Name.StartsWith($"{env}_{appName}_");
+    config.SecretFilter = entry => entry.Name.StartsWith($"{envName}/{appName}/");
     config.KeyGenerator = (_, name) => name
-    .Replace($"{env}_{appName}_", string.Empty)
+    .Replace($"{envName}/{appName}/", string.Empty)
     .Replace("__", ":");
 });
 
