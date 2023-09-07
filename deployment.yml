@@ -42,6 +42,7 @@ Resources:
           - sts:AssumeRole
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+      - arn:aws:iam::aws:policy/SecretsManagerReadWrite 
              
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
