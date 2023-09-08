@@ -77,7 +77,7 @@ jobs:
     - name: 'Create AWS CloudFormation Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: $REPO_NAME-stack-staging
+        name: ${{ github.event.repository.name }}-stack-staging
         template: artifact/deployment.yml
         parameter-overrides: Environment=staging, BucketName=$BUCKET_NAME, Key=$REPO_NAME/staging/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
@@ -145,7 +145,7 @@ jobs:
     - name: 'Create AWS CloudFormation Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: $REPO_NAME-stack-production
+        name: ${{ github.event.repository.name }}-stack-production
         template: artifact/deployment.yml
         parameter-overrides: Environment=production, BucketName=$BUCKET_NAME, Key=$REPO_NAME/production/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
