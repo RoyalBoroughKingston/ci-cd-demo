@@ -7,15 +7,15 @@ Description: An AWS Serverless Application that uses the ASP.NET Core framework 
 Parameters:
   Environment:
     Type: String
-    Default: 'development'
+
+  ProjectName:
+    Type: String
   
   BucketName:
     Type: String
-    Default: 'ddt-build-files'
 
   Key:
     Type: String
-    Default: 'aws-test-app/development/lambda.zip'
 
 Mappings:
   EnvironmentMapping:
@@ -54,8 +54,8 @@ Resources:
               - EnvironmentMapping
               - Ref: Environment
               - EnvironmentVariable
-      FunctionName: !Sub "ci-cd-demo-${Environment}"
-      Handler: ci-cd-demo
+      FunctionName: !Sub "${ProjectName}-${Environment}"
+      Handler: ${ProjectName}
       Runtime: dotnet6
       CodeUri:
         Bucket: !Ref BucketName
