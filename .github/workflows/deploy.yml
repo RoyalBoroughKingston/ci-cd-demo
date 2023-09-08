@@ -79,7 +79,7 @@ jobs:
       with:
         name: ${{ github.event.repository.name }}-stack-staging
         template: artifact/deployment.yml
-        parameter-overrides: Environment=staging, BucketName=${{ env.BUCKET_NAME }}, Key=${{ github.event.repository.name }}/staging/${{ format('build-{0}.zip', github.run_number ) }}
+        parameter-overrides: Environment=staging, ProjectName=${{ github.event.repository.name }}, BucketName=${{ env.BUCKET_NAME }}, Key=${{ github.event.repository.name }}/staging/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
 
@@ -147,7 +147,7 @@ jobs:
       with:
         name: ${{ github.event.repository.name }}-stack-production
         template: artifact/deployment.yml
-        parameter-overrides: Environment=production, BucketName=${{ env.BUCKET_NAME }}, Key=${{ github.event.repository.name }}/production/${{ format('build-{0}.zip', github.run_number ) }}
+        parameter-overrides: Environment=production, ProjectName=${{ github.event.repository.name }}, BucketName=${{ env.BUCKET_NAME }}, Key=${{ github.event.repository.name }}/production/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
     
