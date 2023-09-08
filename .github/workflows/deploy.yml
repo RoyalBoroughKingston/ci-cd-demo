@@ -12,7 +12,7 @@ permissions:
 
 env:
   REPO_NAME: ${{ github.repository }} # Set the repository name as a variable to use in the workflow
-  BUCKET_NAME: ddt-build-files # Name of the root S3 bucket where the build files are stored
+  BUCKET_NAME: ddt-build-files # Set the name of the root S3 bucket where the build files are stored
 
 jobs:
 
