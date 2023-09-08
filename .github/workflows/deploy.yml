@@ -10,6 +10,10 @@ permissions:
   id-token: write # This is required for requesting the JWT to connect Github to AWS
   contents: read  # This is required for actions / checkout
 
+env:
+  REPO_NAME: ${{ github.repository }} # Set the repository name as a variable to use in the workflow
+  BUCKET_NAME: ddt-build-files # Name of the root S3 bucket where the build files are stored
+
 jobs:
 
   # ======================================================
@@ -31,7 +35,7 @@ jobs:
       run: echo "GitHubVariable=${{ secrets.MISC_KEY }}" >> $GITHUB_ENV
 
     - name: 'Update AppSettings to Environment'
-      run: cp ci-cd-demo/appsettings.Staging.json ci-cd-demo/appsettings.json
+      run: cp $REPO_NAME/appsettings.Staging.json $REPO_NAME/appsettings.json
     
     - name: 'Set up .NET Core'
       uses: actions/setup-dotnet@v3
@@ -39,7 +43,7 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
-      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
+      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./$REPO_NAME/$REPO_NAME.csproj
 
     - name: 'Install zip functionality'
       uses: montudor/action-zip@v1
@@ -65,17 +69,17 @@ jobs:
         aws-region: eu-north-1
         
     - name: 'Delete existing zipped build files in AWS'
-      run: aws s3 rm s3://ddt-build-files/ci-cd-demo/staging --recursive --exclude "*" --include "*.zip"
+      run: aws s3 rm s3://$BUCKET_NAME/$REPO_NAME/staging --recursive --exclude "*" --include "*.zip"
     
     - name: 'Upload zipped build files to AWS S3 bucket'
-      run: aws s3 cp ./artifact/build.zip s3://ddt-build-files/ci-cd-demo/staging/build-${{ github.run_number }}.zip
+      run: aws s3 cp ./artifact/build.zip s3://$BUCKET_NAME/$REPO_NAME/staging/build-${{ github.run_number }}.zip
 
     - name: 'Create AWS CloudFormation Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: ci-cd-demo-stack-staging
+        name: $REPO_NAME-stack-staging
         template: artifact/deployment.yml
-        parameter-overrides: Environment=staging, BucketName=ddt-build-files, Key=ci-cd-demo/staging/${{ format('build-{0}.zip', github.run_number ) }}
+        parameter-overrides: Environment=staging, BucketName=$BUCKET_NAME, Key=$REPO_NAME/staging/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
 
@@ -99,7 +103,7 @@ jobs:
       run: echo "GitHubVariable=${{ secrets.MISC_KEY }}" >> $GITHUB_ENV
 
     - name: 'Update AppSettings to Environment'
-      run: cp ci-cd-demo/appsettings.Production.json ci-cd-demo/appsettings.json
+      run: cp $REPO_NAME/appsettings.Production.json $REPO_NAME/appsettings.json
     
     - name: 'Set up .NET Core'
       uses: actions/setup-dotnet@v3
@@ -107,7 +111,7 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: 'Build application files'
-      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./ci-cd-demo/ci-cd-demo.csproj
+      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/build ./$REPO_NAME/$REPO_NAME.csproj
 
     - name: 'Install zip functionality'
       uses: montudor/action-zip@v1
@@ -133,17 +137,17 @@ jobs:
         aws-region: eu-north-1
         
     - name: 'Delete existing zipped build files in AWS'
-      run: aws s3 rm s3://ddt-build-files/ci-cd-demo/production --recursive --exclude "*" --include "*.zip"
+      run: aws s3 rm s3://$BUCKET_NAME/$REPO_NAME/production --recursive --exclude "*" --include "*.zip"
     
     - name: 'Upload zipped build files to AWS S3 bucket'
-      run: aws s3 cp ./artifact/build.zip s3://ddt-build-files/ci-cd-demo/production/build-${{ github.run_number }}.zip
+      run: aws s3 cp ./artifact/build.zip s3://$BUCKET_NAME/$REPO_NAME/production/build-${{ github.run_number }}.zip
 
     - name: 'Create AWS CloudFormation Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: ci-cd-demo-stack-production
+        name: $REPO_NAME-stack-production
         template: artifact/deployment.yml
-        parameter-overrides: Environment=production, BucketName=ddt-build-files, Key=ci-cd-demo/production/${{ format('build-{0}.zip', github.run_number ) }}
+        parameter-overrides: Environment=production, BucketName=$BUCKET_NAME, Key=$REPO_NAME/production/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
     
