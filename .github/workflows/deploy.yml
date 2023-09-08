@@ -79,7 +79,7 @@ jobs:
       with:
         name: ${{ github.event.repository.name }}-stack-staging
         template: artifact/deployment.yml
-        parameter-overrides: Environment=staging, BucketName=$BUCKET_NAME, Key=$REPO_NAME/staging/${{ format('build-{0}.zip', github.run_number ) }}
+        parameter-overrides: Environment=staging, BucketName=${{ env.BUCKET_NAME }}, Key={{ env.REPO_NAME }}/staging/${{ format('build-{0}.zip', github.run_number ) }}
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
 
