@@ -11,7 +11,7 @@ permissions:
   contents: read  # This is required for actions / checkout
 
 env:
-  REPO_NAME: ${{ github.repository }} # Set the repository name as a variable to use in the workflow
+  REPO_NAME: ${{ github.event.repository.name }} # Set the repository name as a variable to use in the workflow
   BUCKET_NAME: ddt-build-files # Set the name of the root S3 bucket where the build files are stored
 
 jobs:
