@@ -54,7 +54,7 @@ Resources:
               - Ref: Environment
               - EnvironmentVariable
       FunctionName: !Sub "${ProjectName}-${Environment}"
-      Handler: ${ProjectName}
+      Handler: ci-cd-demo
       Runtime: dotnet6
       CodeUri:
         Bucket: !Ref BucketName
