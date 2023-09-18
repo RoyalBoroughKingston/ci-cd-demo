@@ -90,9 +90,9 @@ Resources:
                 type: aws_proxy
 
   MyApiDeployment:
-  Type: AWS::ApiGateway::Deployment
-  Properties:
-    RestApiId: !Ref AspNetCoreApi
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId: !Ref AspNetCoreApi
 
   MyApiStage:
     Type: AWS::ApiGateway::Stage
