@@ -67,8 +67,7 @@ Resources:
         RootResource:
           Type: Api
           Properties:
-            Path:
-              Fn::Sub: "/${ProjectName}"
+            Path: "/ci-cd-demo"
             Method: ANY
 Outputs:
   ApiURL:
