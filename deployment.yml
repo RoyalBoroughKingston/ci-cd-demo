@@ -67,7 +67,8 @@ Resources:
         RootResource:
           Type: Api
           Properties:
-            Path: !Sub "/${ProjectName}"
+            Path:
+              Fn::Sub: /${ProjectName}
             Method: ANY
 Outputs:
   ApiURL:
