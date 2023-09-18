@@ -69,8 +69,42 @@ Resources:
           Properties:
             Path: "/ci-cd-demo"
             Method: ANY
-Outputs:
-  ApiURL:
-    Description: API endpoint
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/
+
+  AspNetCoreApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: "2.0"
+        info:
+          title: "My API"
+          version: "1.0"
+        paths:
+          /myresource:
+            get:
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AspNetCoreFunction.Arn}/invocations
+                passthroughBehavior: "when_no_match"
+                httpMethod: POST
+                type: aws_proxy
+
+  MyApiDeployment:
+  Type: AWS::ApiGateway::Deployment
+  Properties:
+    RestApiId: !Ref AspNetCoreApi
+
+  MyApiStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId: !Ref MyApiDeployment
+      RestApiId: !Ref AspNetCoreApi
+      StageName: prod
+
+  LambdaPermissionForApiGateway:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt AspNetCoreFunction.Arn
+      Principal: apigateway.amazonaws.com
+
