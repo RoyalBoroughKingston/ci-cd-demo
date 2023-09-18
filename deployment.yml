@@ -73,5 +73,5 @@ Outputs:
   ApiURL:
     Description: API endpoint
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com
+      Fn::Sub: https://${ServerlessRestApi}.${ProjectName}.${AWS::Region}.amazonaws.com
 
