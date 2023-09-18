@@ -63,12 +63,6 @@ Resources:
       MemorySize: 256
       Timeout: 30
       Role: !GetAtt AspNetCoreIamRole.Arn
-      Events:
-        RootResource:
-          Type: Api
-          Properties:
-            Path: "/ci-cd-demo"
-            Method: ANY
 
   AspNetCoreApi:
     Type: AWS::Serverless::Api
