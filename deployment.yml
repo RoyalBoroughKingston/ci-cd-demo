@@ -66,13 +66,12 @@ Resources:
         RootResource:
           Type: Api
           Properties:
-            Path:
-              Fn::Sub: /${ProjectName}
+            Path: "/"
             Method: ANY
 
 Outputs:
   ApiURL:
     Description: API endpoint
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${ProjectName}
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${ProjectName}/
 
