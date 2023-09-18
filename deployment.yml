@@ -64,18 +64,13 @@ Resources:
       Timeout: 30
       Role: !GetAtt AspNetCoreIamRole.Arn
       Events:
-        ProxyResource:
-          Type: Api
-          Properties:
-            Path: "/{proxy+}"
-            Method: ANY
         RootResource:
           Type: Api
           Properties:
-            Path: "/"
+            Path: !Sub "/${ProjectName}"
             Method: ANY
 Outputs:
   ApiURL:
     Description: API endpoint
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.${AWS::Region}.amazonaws.com/ci-cd-demo
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/
