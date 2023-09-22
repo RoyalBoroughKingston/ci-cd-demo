@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - '${{ github.event.repository.name }}/**' # Only triggered when application files are modified  
+      - 'ci-cd-demo/**' # Only triggered when application files are modified  
   pull_request:
     branches:
       - main
