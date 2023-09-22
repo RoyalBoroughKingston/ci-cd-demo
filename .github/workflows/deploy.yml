@@ -1,11 +1,12 @@
 # This workflow deploys the application to Staging & Production environments
 name: Deploy to Staging & Production
 
-# This workflow is triggered when a branch is merged to the main branch
+# This workflow is triggered when the code scanning and code testing / linting workflows run successfully
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Code scanning", "Code testing & linting"]
+    types:
+      - completed
       
 permissions:
   id-token: write # This is required for requesting the JWT to connect Github to AWS
@@ -23,6 +24,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: 'Check if the event is a push to main'
+      run: |
+        event_type=$(jq -r .event_name $GITHUB_EVENT_PATH)
+        base_ref=$(jq -r .base.ref $GITHUB_EVENT_PATH)
+
+        if [[ $event_type == "push" && $base_ref == "main" ]]; then
+          echo "Event is a push to main branch. Proceed with staging deployment."
+        else
+          echo "Event is not a push to main branch. Skip staging deployment."
+          exit 0
+        fi
+        
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
@@ -86,6 +99,18 @@ jobs:
     needs: deploy_staging
 
     steps:
+    - name: 'Check if the event is a push to main'
+      run: |
+        event_type=$(jq -r .event_name $GITHUB_EVENT_PATH)
+        base_ref=$(jq -r .base.ref $GITHUB_EVENT_PATH)
+
+        if [[ $event_type == "push" && $base_ref == "main" ]]; then
+          echo "Event is a push to main branch. Proceed with production deployment."
+        else
+          echo "Event is not a push to main branch. Skip production deployment."
+          exit 0
+        fi
+        
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
