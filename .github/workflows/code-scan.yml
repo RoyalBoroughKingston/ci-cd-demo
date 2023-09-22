@@ -1,19 +1,19 @@
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
-#
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
+# This workflow scans the repository code to check for security vulnerabilites
 name: "Code scanning"
 
+# This workflow is triggered when a branch is merged to the main branch
+# or a new PR is created on the main branch
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
     paths:
-      - 'ci-cd-demo/**'
+      - '${{ github.repository }}/**' # Only triggered when application files are modified  
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
     paths:
-      - 'ci-cd-demo/**'
+      - '${{ github.repository }}/**' # Only triggered when application files are modified
 
 jobs:
   analyze:
