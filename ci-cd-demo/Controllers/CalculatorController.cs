@@ -10,12 +10,13 @@ public class CalculatorController : ControllerBase
     private readonly SecretsList secrets;
     private readonly ILogger<CalculatorController> _logger;
 
+
     public CalculatorController(
-        IOptions<SecretsList> secrets,
-        ILogger<CalculatorController> logger)
+        IOptions<SecretsList> secrets = null,
+        ILogger<CalculatorController> logger = null)
     {
-        this.secrets = secrets.Value;
-        _logger = logger;
+        this.secrets = secrets?.Value;
+        _logger = logger ?? LoggerFactory.Create(builder => { }).CreateLogger<CalculatorController>();
     }
 
 
