@@ -47,5 +47,5 @@ jobs:
     - name: 'Run .NET Linter'
       uses: zyactions/dotnet-lint@v1
       with:
-        workspace: ci-cd-demo
+        workspace: ${{ github.event.repository.name }}
         implicit-restore: true
