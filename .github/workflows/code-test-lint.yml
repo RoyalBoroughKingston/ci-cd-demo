@@ -1,4 +1,4 @@
-name: Code build & test
+name: Code testing & linting
 
 # This workflow is triggered whenever a new PR is created on the main branch
 on:
