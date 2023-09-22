@@ -6,15 +6,11 @@ name: "Code scanning"
 on:
   push:
     branches:
-      - main
-    paths:
-      - 'ci-cd-demo/**' # Only triggered when application files are modified  
+      - main 
   pull_request:
     branches:
       - main
-    paths:
-      - '${{ github.event.repository.name }}/**' # Only triggered when application files are modified
-
+      
 jobs:
   analyze:
     name: Analyze code
