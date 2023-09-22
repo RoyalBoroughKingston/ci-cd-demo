@@ -7,13 +7,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '${{ github.repository }}/**' # Only triggered when application files are modified  
   pull_request:
     branches:
       - main
-    paths:
-      - '${{ github.repository }}/**' # Only triggered when application files are modified
 
 jobs:
   # Run unit tests to make sure everything is 👍
