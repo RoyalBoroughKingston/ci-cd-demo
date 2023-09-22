@@ -1,16 +1,21 @@
+# This workflow runs any unit / integration tests and lints the code for styling issues
 name: Code testing & linting
 
-# This workflow is triggered whenever a new PR is created on the main branch
+# This workflow is triggered when a branch is merged to the main branch
+# or a new PR is created on the main branch
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+    paths:
+      - '${{ github.repository }}/**' # Only triggered when application files are modified  
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '${{ github.repository }}/**' # Only triggered when application files are modified
 
 jobs:
-
   # Run unit tests to make sure everything is 👍
   test:
     name: 'Run unit tests'
