@@ -1,11 +1,14 @@
+# This workflow deploys the application to Staging & Production environments
 name: Deploy to Staging & Production
 
-# This workflow is triggered whenever commits are pushed to the main branch
+# This workflow is triggered when a branch is merged to the main branch
 on:
   push:
     branches:
-      - 'main'
-
+      - main
+    paths:
+      - '${{ github.repository }}/**' # Only triggered when application files are modified  
+  
 permissions:
   id-token: write # This is required for requesting the JWT to connect Github to AWS
   contents: read  # This is required for actions / checkout
@@ -15,13 +18,7 @@ env:
   BUCKET_NAME: ddt-build-files # Set the name of the root S3 bucket where the build files are stored
 
 jobs:
-
-  # ======================================================
-  # Deploy the main branch to staging
-  # 
-  # It's important to test the main branch in staging
-  # before going to production with it.
-  # ======================================================
+  # Deploy to staging for UAT and application checks before manual approval for Production
   deploy_staging:
     name: 'Deploy to Staging'
     environment: staging
@@ -83,12 +80,7 @@ jobs:
         capabilities: CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND
         no-fail-on-empty-changeset: "1"
 
-  # ======================================================
-  # Deploy the main branch to production
-  # 
-  # This job will require the `deploy_staging` job to
-  # run and complete successfully first!
-  # ======================================================
+  # Deploy to Production once approved after UAT in Staging
   deploy_production:
     name: 'Deploy to Production'
     environment: production
