@@ -15,7 +15,7 @@ namespace ci_cd_demo.Tests
             var result = controller.Add(2, 3);
 
             // Assert
-            Assert.AreEqual(6, result);
+            Assert.AreEqual(5, result);
         }
     }
 }
