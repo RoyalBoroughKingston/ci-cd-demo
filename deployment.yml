@@ -43,11 +43,6 @@ Resources:
       - arn:aws:iam::aws:policy/AWSLambda_FullAccess
       - arn:aws:iam::aws:policy/SecretsManagerReadWrite 
       - arn:aws:iam::aws:policy/CloudWatchFullAccess
-             
-  AspNetCoreLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub "/aws/lambda/${Environment}/${ProjectName}"
   
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
@@ -68,7 +63,6 @@ Resources:
       MemorySize: 256
       Timeout: 30
       Role: !GetAtt AspNetCoreIamRole.Arn
-      LogGroupName: !GetAtt AspNetCoreLogGroup.LogGroupName
       Events:
         RootResource:
           Type: Api
