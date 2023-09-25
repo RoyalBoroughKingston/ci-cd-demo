@@ -42,6 +42,7 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/AWSLambda_FullAccess
       - arn:aws:iam::aws:policy/SecretsManagerReadWrite 
+      - arn:aws:iam::aws:policy/CloudWatchFullAccess
              
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
