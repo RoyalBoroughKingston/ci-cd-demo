@@ -1,5 +1,5 @@
 # This workflow scans the repository code to check for security vulnerabilites
-name: "Code scanning"
+name: "Scan code"
 
 # This workflow is triggered when a branch is merged to the main branch
 # or a new PR is created on the main branch
