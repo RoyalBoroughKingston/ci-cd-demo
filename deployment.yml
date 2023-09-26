@@ -70,6 +70,11 @@ Resources:
             Path: "/"
             Method: ANY
 
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Environment  # Set the stage name based on the Environment parameter
+
 Outputs:
   ApiURL:
     Description: API endpoint
