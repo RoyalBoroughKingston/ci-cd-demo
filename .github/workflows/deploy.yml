@@ -1,10 +1,12 @@
 # This workflow deploys the application to Staging & Production environments
 name: Deploy to Staging & Production
 
-# This workflow is triggered when a branch is merged to the main branch and CI checks have completed
+# This workflow is triggered when a branch is merged to the main branch and CI tests have passed
 on:
   workflow_run:
-    workflows: ["Code scanning", "Code testing & linting"]
+    workflows: ["Code testing & linting"]
+    branches:
+      - main
     types:
       - completed
       
@@ -17,33 +19,27 @@ env:
   BUCKET_NAME: ddt-build-files # Set the name of the root S3 bucket where the build files are stored
 
 jobs:
-  # Check CI workflows are successful
-  ci_status_check:
-    name: 'CI Status Check'
+  # Check CI tests are successful
+  ci_tests_check:
+    name: 'CI Tests Check'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Check CI Workflows'
+      - name: 'Check CI Tests'
         id: check-status
         run: |
-          # Check if the pushed branch is main
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            # Check if the workflows "Code scanning" and "Code testing & linting" have completed successfully
-            if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
-              echo "The 'Code scanning' and 'Code testing & linting' workflows have completed successfully, and it's a push to main."
-            else
-              echo "Either the 'Code scanning' or 'Code testing & linting' workflows failed, or it's not a push to main."
-              exit 1
-            fi
+          # Check if CI tests have completed successfully
+          if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
+            echo "The CI tests are successful"
           else
-            echo "This is not a push to the main branch. Skipping the deployment."
-            exit 0
+            echo "The CI tests failed"
+            exit 1
           fi
   # Deploy to staging for UAT and application checks before manual approval for Production
   deploy_staging:
     name: 'Deploy to Staging'
     environment: staging
     runs-on: ubuntu-latest
-    needs: ci_status_check
+    needs: ci_tests_check
 
     steps:        
     - name: 'Checkout repository'
