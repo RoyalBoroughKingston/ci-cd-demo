@@ -28,24 +28,15 @@ jobs:
 
     steps:        
     # Only run deployment if CI stages are successful
-    - name: 'Check Code Scanning Status'
+    - name: 'Check CI Stages are successful'
       run: |
-        if [[ "${{ env.STATUS_SCAN }}" == "success" ]]; then
-          echo "Code Scanning was successful."
-        else
-          echo "Code Scanning failed."
-          exit 1
-        fi  
+          if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
+            echo "Code Scanning and Code Testing & Linting were successful."
+          else
+            echo "Code Linting or Code Scanning failed."
+            exit 1
+          fi
 
-    - name: 'Check Code Testing Status'
-      run: |
-        if [[ "${{ env.STATUS_TEST_LINT }}" == "success" ]]; then
-          echo "Code Testing & Linting was successful."
-        else
-          echo "Code Testing & Linting failed."
-          exit 1
-        fi
-          
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
