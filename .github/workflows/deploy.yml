@@ -23,6 +23,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:        
+    - name: 'Check Code Scanning Status'
+      run: |
+        if [[ "${{ env.STATUS_SCAN }}" == "success" ]]; then
+          echo "Code Scanning was successful."
+        else
+          echo "Code Scanning failed."
+          exit 1
+        fi  
+
+    - name: 'Check Code Testing Status'
+      run: |
+        if [[ "${{ env.STATUS_TEST_LINT }}" == "success" ]]; then
+          echo "Code Testing & Linting was successful."
+        else
+          echo "Code Testing & Linting failed."
+          exit 1
+        fi
+          
     - name: 'Checkout repository'
       uses: actions/checkout@v3
 
