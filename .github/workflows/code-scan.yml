@@ -61,7 +61,11 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
-    # Check the workflow is successful
+  # Check the workflow is successful
+  status:
+    name: 'Check workflow status'
+    runs-on: ubuntu-latest
+    steps:
     - name: Set Status
       run: |
         if [[ "${{ steps.scan.outcome }}" == "success" ]]; then
