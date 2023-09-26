@@ -73,11 +73,11 @@ Resources:
   ApiGateway:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: !Ref Environment  # Set the stage name based on the Environment parameter
+      StageName: !Ref Environment
 
 Outputs:
   ApiURL:
     Description: API endpoint
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}
 
