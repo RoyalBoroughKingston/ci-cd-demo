@@ -76,6 +76,6 @@ Resources:
   ApiGateway:
     Type: AWS::Serverless::Api
     Properties:
-      Name: TestApi
-      StageName: gamma
+      Name: !Sub "${ProjectName}-${Environment}-api"
+      StageName: !Ref Environment
 
