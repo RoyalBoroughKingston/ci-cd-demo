@@ -69,7 +69,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGateway
-            Path: "/my-endpoint"
+            Path: "/"
             Method: ANY
 
   ApiGateway:
@@ -77,12 +77,4 @@ Resources:
     Properties:
       Name: TestApi
       StageName: !Ref Environment
-      DefinitionBody:
-        swagger: "2.0"
-        info:
-          title: My Custom API
-        paths:
-          /my-endpoint:
-            x-amazon-apigateway-any-method:
-              # Method configuration for the ANY method
 
