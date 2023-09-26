@@ -4,7 +4,7 @@ name: Deploy to Staging & Production
 # This workflow is triggered when a branch is merged to the main branch and CI tests have passed
 on:
   workflow_run:
-    workflows: ["Code testing & linting"]
+    workflows: ["Run tests"]
     branches:
       - main
     types:
