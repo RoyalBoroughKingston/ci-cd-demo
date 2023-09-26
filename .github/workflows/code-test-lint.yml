@@ -49,16 +49,4 @@ jobs:
       with:
         workspace: ${{ github.event.repository.name }}
         implicit-restore: true
-  
-  # Check the workflow is successful
-  status:
-    name: 'Check workflow status'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Set Status
-      run: |
-        if [[ "${{ steps.scan.outcome }}" == "success" ]]; then
-          echo "::set-env name=STATUS_TEST_LINT::success"
-        else
-          echo "::set-env name=STATUS_TEST_LINT::failure"
-        fi
+
