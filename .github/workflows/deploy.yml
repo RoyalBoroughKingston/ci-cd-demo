@@ -1,11 +1,15 @@
 # This workflow deploys the application to Staging & Production environments
 name: Deploy to Staging & Production
 
-# This workflow is triggered when a branch is merged to the main branch
+# This workflow is triggered when a branch is merged to the main branch and CI checks have completed
 on:
   push:
     branches:
       - main 
+  workflow_run:
+    workflows: ["Code scanning", "Code testing & linting"]
+    types:
+      - completed
       
 permissions:
   id-token: write # This is required for requesting the JWT to connect Github to AWS
@@ -23,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:        
+    # Only run deployment if CI stages are successful
     - name: 'Check Code Scanning Status'
       run: |
         if [[ "${{ env.STATUS_SCAN }}" == "success" ]]; then
