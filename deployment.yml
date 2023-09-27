@@ -77,6 +77,5 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: !Sub "${ProjectName}-${Environment}-api"
-      OpenApiVersion: 3.0.1
-      StageName: !Ref Environment
+      StageName: !Ref ProjectName
 
