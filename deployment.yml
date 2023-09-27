@@ -27,7 +27,7 @@ Mappings:
       EnvironmentVariable: 'Production'
 
 Resources:
-  AspNetCoreIamRole:
+  LambdaFunctionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -42,7 +42,7 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::604486847222:policy/API-Lambda-Policy
   
-  AspNetCoreFunction:
+  LambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       Environment:
@@ -60,7 +60,7 @@ Resources:
         Key: !Ref Key
       MemorySize: 256
       Timeout: 30
-      Role: !GetAtt AspNetCoreIamRole.Arn
+      Role: !GetAtt LambdaFunctionRole.Arn
       Events:
         RootResource:
           Type: Api
