@@ -64,9 +64,24 @@ Resources:
       Timeout: 30
       Role: !GetAtt AspNetCoreIamRole.Arn
       Events:
+        RootResource:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ApiGateway
+            Path: "/"
+            Method: ANY
         ProxyResource:
           Type: Api
           Properties:
+            RestApiId:
+              Ref: ApiGateway
             Path: "/{proxy+}"
             Method: ANY
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub "${ProjectName}-${Environment}-api"
+      StageName: !Ref ProjectName
 
