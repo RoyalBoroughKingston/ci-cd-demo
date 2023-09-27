@@ -70,7 +70,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: ApiGateway
-            Path: !Sub "/${ProjectName}"
+            Path: "/"
             Method: ANY
 
   ApiGateway:
@@ -79,3 +79,8 @@ Resources:
       Name: !Sub "${ProjectName}-${Environment}-api"
       StageName: !Ref Environment
 
+Outputs:
+  ApiGatewayUrl:
+    Description: URL of the API Endpoint
+    Value:
+      Fn::Sub: "https://${ServerlessRestApi}-${Environment}.execute-api.${AWS::Region}.amazonaws.com"
