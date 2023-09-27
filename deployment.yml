@@ -40,7 +40,7 @@ Resources:
           Action:
           - sts:AssumeRole
       ManagedPolicyArns:
-      - arn:aws:iam::604486847222:policy/DeployDotNetLambda
+      - arn:aws:iam::604486847222:policy/API-Lambda-Policy
   
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
