@@ -34,6 +34,7 @@ jobs:
             echo "The CI tests failed"
             exit 1
           fi
+          
   # Deploy to staging for UAT and application checks before manual approval for Production
   deploy_staging:
     name: 'Deploy to Staging'
