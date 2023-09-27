@@ -85,3 +85,9 @@ Resources:
       Name: !Sub "${ProjectName}-${Environment}-api"
       StageName: !Ref ProjectName
 
+Outputs:
+  ApiURL:
+    Description: API URL
+    Value:
+      Fn::Sub: https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${ProjectName}
+
