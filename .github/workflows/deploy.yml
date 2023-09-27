@@ -1,5 +1,5 @@
 # This workflow deploys the application to Staging & Production environments
-name: Deploy to Staging & Production
+name: 'Deploy to Staging & Production'
 
 # This workflow is triggered when a branch is merged to the main branch and CI tests have passed
 on:
