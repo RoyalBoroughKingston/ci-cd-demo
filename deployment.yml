@@ -83,4 +83,4 @@ Outputs:
   ApiGatewayUrl:
     Description: URL of the API Endpoint
     Value:
-      Fn::Sub: "https://${ServerlessRestApi}-${Environment}.execute-api.${AWS::Region}.amazonaws.com"
+      Fn::Sub: "https://${ApiGateway}-${Environment}.execute-api.${AWS::Region}.amazonaws.com"
