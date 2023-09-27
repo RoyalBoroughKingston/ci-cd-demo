@@ -64,11 +64,6 @@ Resources:
       Timeout: 30
       Role: !GetAtt AspNetCoreIamRole.Arn
       Events:
-        RootResource:
-          Type: Api
-          Properties:
-            Path: "/"
-            Method: ANY
         ProxyResource:
           Type: Api
           Properties:
