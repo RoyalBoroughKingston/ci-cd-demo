@@ -70,29 +70,12 @@ Resources:
           Properties:
             RestApiId:
               Ref: ApiGateway
-            Path: "/"
+            Path: !Sub "/${ProjectName}"
             Method: ANY
 
-  MyApi:
-    Type: AWS::ApiGateway::RestApi
+  ApiGateway:
+    Type: AWS::Serverless::Api
     Properties:
-      Name: MyAPI
-
-  MyApiDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn: MyApi
-    Properties:
-      RestApiId:
-        Fn::GetAtt:
-          - MyApi
-          - Id
-
-  MyApiStage:
-    Type: AWS::ApiGateway::Stage
-    Properties:
+      Name: !Sub "${ProjectName}-${Environment}-api"
       StageName: !Ref Environment
-      RestApiId:
-        Ref: MyApi
-      DeploymentId:
-        Ref: MyApiDeployment
 
