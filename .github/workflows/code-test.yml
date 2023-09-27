@@ -1,5 +1,5 @@
 # This workflow runs any unit / integration tests and lints the code for styling issues
-name: Run tests
+name: 'Run tests'
 
 # This workflow is triggered when a branch is merged to the main branch
 # or a new PR is created on the main branch
