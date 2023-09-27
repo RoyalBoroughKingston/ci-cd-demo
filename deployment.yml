@@ -67,6 +67,11 @@ Resources:
         RootResource:
           Type: Api
           Properties:
+            Path: "/"
+            Method: ANY
+        ProxyResource:
+          Type: Api
+          Properties:
             Path: "/{proxy+}"
             Method: ANY
 
