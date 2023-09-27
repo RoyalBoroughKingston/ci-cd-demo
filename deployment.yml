@@ -42,7 +42,9 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/AWSLambda_FullAccess
       - arn:aws:iam::aws:policy/SecretsManagerReadWrite 
-             
+      - arn:aws:iam::aws:policy/CloudWatchFullAccess
+      - arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess
+  
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -66,12 +68,14 @@ Resources:
         RootResource:
           Type: Api
           Properties:
+            RestApiId:
+              Ref: ApiGateway
             Path: "/"
             Method: ANY
 
-Outputs:
-  ApiURL:
-    Description: API endpoint
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub "${ProjectName}-${Environment}-api"
+      StageName: !Ref ProjectName
 
