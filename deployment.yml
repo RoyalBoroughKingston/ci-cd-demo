@@ -73,9 +73,26 @@ Resources:
             Path: "/"
             Method: ANY
 
-  ApiGateway:
-    Type: AWS::Serverless::Api
+  MyApi:
+    Type: AWS::ApiGateway::RestApi
     Properties:
-      Name: !Sub "${ProjectName}-${Environment}-api"
+      Name: MyAPI
+
+  MyApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: MyApi
+    Properties:
+      RestApiId:
+        Fn::GetAtt:
+          - MyApi
+          - Id
+
+  MyApiStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
       StageName: !Ref Environment
+      RestApiId:
+        Ref: MyApi
+      DeploymentId:
+        Ref: MyApiDeployment
 
