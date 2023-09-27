@@ -43,7 +43,6 @@ Resources:
       - arn:aws:iam::aws:policy/AWSLambda_FullAccess
       - arn:aws:iam::aws:policy/SecretsManagerReadWrite 
       - arn:aws:iam::aws:policy/CloudWatchFullAccess
-      - arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess
   
   AspNetCoreFunction:
     Type: AWS::Serverless::Function
@@ -68,14 +67,6 @@ Resources:
         RootResource:
           Type: Api
           Properties:
-            RestApiId:
-              Ref: ApiGateway
             Path: "/"
             Method: ANY
-
-  ApiGateway:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub "${ProjectName}-${Environment}-api"
-      StageName: !Ref ProjectName
 
