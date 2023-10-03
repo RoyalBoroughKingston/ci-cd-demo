@@ -79,7 +79,7 @@ jobs:
     - name: 'Configure AWS Credentials'
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: arn:aws:iam::604486847222:role/OIDC_GitHub
+        role-to-assume: arn:aws:iam::604486847222:role/API-Pipeline-Role
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: eu-north-1
         
@@ -142,7 +142,7 @@ jobs:
     - name: 'Configure AWS Credentials'
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: arn:aws:iam::604486847222:role/OIDC_GitHub
+        role-to-assume: arn:aws:iam::604486847222:role/API-Pipeline-Role
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: eu-north-1
         
