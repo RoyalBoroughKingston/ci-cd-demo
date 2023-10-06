@@ -1,15 +1,16 @@
 # This workflow runs any unit / integration tests and lints the code for styling issues
 name: 'Run tests'
 
-# This workflow is triggered when a branch is merged to the main branch
-# or a new PR is created on the main branch
+# This workflow is triggered when a branch is merged to the develop / main branches
+# or a new PR is created on the develop branch
 on:
   push:
     branches:
+      - develop
       - main
   pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
   # Run unit tests to make sure everything is 👍
