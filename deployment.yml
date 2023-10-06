@@ -18,8 +18,8 @@ Parameters:
 
 Mappings:
   EnvironmentMapping:
-    development:
-      EnvironmentVariable: 'Development'
+    uat:
+      EnvironmentVariable: 'Uat'
     staging:
       EnvironmentVariable: 'Staging'
     production:
