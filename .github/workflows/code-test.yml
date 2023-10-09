@@ -22,6 +22,8 @@ jobs:
     steps:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref }}
 
     - name: 'Set up .NET'
       uses: actions/setup-dotnet@v3
@@ -44,6 +46,8 @@ jobs:
     steps:    
     - name: 'Checkout repository'
       uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref }}
     
     - name: 'Run .NET Linter'
       uses: zyactions/dotnet-lint@v1
