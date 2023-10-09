@@ -46,7 +46,7 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
       with:
-        ref: develop
+        ref: ${{ github.ref }}
 
     - name: 'Update AppSettings to Environment'
       run: cp $REPO_NAME/appsettings.Uat.json $REPO_NAME/appsettings.json
