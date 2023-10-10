@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     # Define the steps for this job
     steps:
+    - name: 'Test'
+      run: echo "This is just a test"
+      
     - name: 'Checkout repository'
       uses: actions/checkout@v3
       with:
