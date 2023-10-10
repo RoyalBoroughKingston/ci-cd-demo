@@ -40,6 +40,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/", () => $"Welcome! to this demo running ASP.NET Core Minimal API on AWS Lambda in UAT! :) in the environment: {environment}.");
+app.MapGet("/", () => $"Welcome. to this demo running ASP.NET Core Minimal API on AWS Lambda in UAT! :) in the environment: {environment}.");
 
 app.Run();
