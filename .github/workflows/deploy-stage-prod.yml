@@ -46,7 +46,7 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.ref }}
+        ref: develop
 
     - name: 'Set Environment Secrets'
       run: echo "GitHubVariable=${{ secrets.MISC_KEY }}" >> $GITHUB_ENV
@@ -111,7 +111,7 @@ jobs:
     - name: 'Checkout repository'
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.ref }}
+        ref: develop
 
     - name: 'Set Environment Secrets'
       run: echo "GitHubVariable=${{ secrets.MISC_KEY }}" >> $GITHUB_ENV
